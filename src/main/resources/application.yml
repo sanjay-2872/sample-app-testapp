@@ -1,0 +1,72 @@
+spring:
+  profiles:
+    active: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: ${SPRING_DATASOURCE_URL}
+    jdbcUrl: ${SPRING_DATASOURCE_URL}
+    hikari:
+      jdbc-url: ${SPRING_DATASOURCE_URL}
+  datasource-h2:
+    driver-class-name: org.h2.Driver
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:h2:mem:testdb
+    jdbcUrl: jdbc:h2:mem:testdb
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: true
+  main:
+    banner-mode: off
+  application:
+    name: sample-app
+  output:
+    ansi:
+      enabled: always
+  h2:
+    console:
+      enabled: true
+      path: /dbconsole
+logging:
+  level:
+    org.springframework: error
+    org.hibernate: error
+    org.zalando: trace
+    com.m2p: info
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: info
+  pattern:
+    console: "%clr(%d{yy-MM-dd E HH:mm:ss.SSS}){blue} %clr(%-5p) %clr(%logger{0}){blue} %clr(%m){faint}%n"
+server:
+  servlet:
+    context-path: /sample
+  port: 8080
+logbook:
+  filter.enabled: true
+  secure-filter.enabled: true
+  format.style: json
+  strategy: default
+  obfuscate:
+    headers:
+      - Authorization
+      - X-API-KEY
+    parameters:
+      - access_token
+      - password
+  write:
+    chunk-size: 1000
+  include:
+    - /sample/api/**
+executiontime:
+  enabled: true
